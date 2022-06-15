@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         scryfall to namu
-// @version      0.7
+// @version      0.8
 // @description  스크라이폴을 나무위키로
 // @author       ygosuyasuya
 // @match        https://scryfall.com/card/*/*/ko/*
@@ -12,6 +12,27 @@
 /* global $ */
 
 console.log("scryfall to namu loadded");
+
+const multicolors = ["W", "U", "B", "R", "G", "WU", "UB", "BR", "RG", "GW", "WB", "UR", "BG", "RW", "GU", "GWU", "WUB", "UBR", "BRG", "RGW", "WBR", "URG", "BGW", "RWU", "GUB", "UBRG", "BRGW", "RGWU", "GWUB", "WUBR", "WUBRG"];
+
+function multicolor_to_binary(colors){
+    if(typeof colors === "string"){
+        colors = [...colors];
+    }
+
+    return colors.reduce((acc, cur) => {
+        return acc + Math.pow(2, ["W", "U", "B", "R", "G"].indexOf(cur));
+    }, 0);
+}
+
+const multicolor_dic = multicolors.reduce((acc, cur) => {
+    acc[multicolor_to_binary(cur)] = cur;
+    return acc;
+}, {});
+
+function multicolor_sort(colors){
+    return multicolor_dic[multicolor_to_binary(colors)];
+}
 
 function get_rarity_ko(rarity){
     const translate = {
@@ -71,7 +92,6 @@ function get_color(colors, cost){
         "R" : ["#f00", "#fff"],
         "G" : ["#0f0", "#000"],
     }
-    const color_order = ["W", "U", "B", "R", "G"];
     let text = "";
 
     if(colors.length == 0){
@@ -81,7 +101,7 @@ function get_color(colors, cost){
         text = `
 ||<height=30px><:>'''마나비용'''||<:><${namu_color[colors[0]][0]}>{{{${namu_color[colors[0]][1]} ${cost} }}}||`;
     }else{
-        const multicolor = colors.sort((a, b) => color_order.indexOf(a) - color_order.indexOf(b)).map((color)=>namu_color[color][0]).join(",")
+        const multicolor = [...multicolor_sort(colors)].map((color)=>namu_color[color][0]).join(",")
         text = `
 ||<height=30px><:>'''마나비용'''||<:>{{{#!wiki style="margin: -5px -10px; padding: 5px 10px; background-image: linear-gradient(to right, ${multicolor})"
 {{{#fff ${cost} }}}}}}||`;
