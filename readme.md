@@ -1,3 +1,5 @@
+  [![HitCount](https://hits.dwyl.com/suyasuyazzang/jsMtgTools.svg?style=flat-square)](http://hits.dwyl.com/suyasuyazzang/jsMtgTools)
+
 ## ScryNamu
 [Scryfall](https://scryfall.com)의 카드 데이터를 [나무위키 매직 더 개더링 카드 템플릿](https://namu.wiki/w/%ED%85%9C%ED%94%8C%EB%A6%BF:%EB%A7%A4%EC%A7%81%20%EB%8D%94%20%EA%B0%9C%EB%8D%94%EB%A7%81/%EC%B9%B4%EB%93%9C)에 맞춰서 작성해 주는 Tampermonkey 스크립트입니다.
 
